@@ -15,6 +15,7 @@
         "phpunit/phpunit": "^9.0"
     },
     "minimum-stability": "stable",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "license": "Proprietary"
 }
 
