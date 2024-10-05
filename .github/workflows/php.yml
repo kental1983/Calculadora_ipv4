@@ -1,4 +1,4 @@
-name: PHP Composer
+name: PHP Tests
 
 on:
   push:
@@ -11,46 +11,26 @@ permissions:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Validate composer.json and composer.lock
-      run: composer validate --strict
-
-    - name: Cache Composer packages
-      id: composer-cache
-      uses: actions/cache@v3
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
       with:
-        path: vendor
-        key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-php-
+        php-version: '8.0'  # Ajuste para a versão do PHP que você está utilizando
+        extensions: mbstring, xml, bcmath, curl, zip  # Adicione extensões necessárias
 
-    - name: Install dependencies
+    - name: Install Composer dependencies
       run: composer install --prefer-dist --no-progress --no-scripts
 
-    # Adicione um script de teste ao seu composer.json, por exemplo:
-    # "scripts": {
-    #   "test": "vendor/bin/phpunit"
-    # }
-    {
-    "name": "kental1983/Calculadora_ipv4",
-    "description": "Descrição do seu projeto",
-    "require": {
-        // suas dependências
-    },
-    "require-dev": {
-        "phpunit/phpunit": "^9.5"  // Certifique-se de usar a versão adequada para seu PHP
-    },
-    "scripts": {
-        "test": "vendor/bin/phpunit"
-    }
-}
+    - name: Generate application key
+      run: php artisan key:generate
 
-    
-    - name: Run test suite
-      run: composer run-script test
+    - name: Run database migrations
+      run: php artisan migrate --env=testing
+
+    - name: Run tests
+      run: vendor/bin/phpunit
