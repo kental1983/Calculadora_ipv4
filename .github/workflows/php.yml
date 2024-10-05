@@ -37,6 +37,20 @@ jobs:
     # "scripts": {
     #   "test": "vendor/bin/phpunit"
     # }
+    {
+    "name": "kental1983/Calculadora_ipv4",
+    "description": "Descrição do seu projeto",
+    "require": {
+        // suas dependências
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5"  // Certifique-se de usar a versão adequada para seu PHP
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit"
+    }
+}
+
     
     - name: Run test suite
       run: composer run-script test
