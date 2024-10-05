@@ -26,6 +26,14 @@ jobs:
     - name: Install Composer dependencies
       run: composer install --prefer-dist --no-progress --no-scripts
 
+    - name: Setup Environment
+      run: |
+        cp .env.example .env
+        echo "DB_CONNECTION=sqlite" >> .env
+        echo "DB_DATABASE=:memory:" >> .env
+        echo "CACHE_DRIVER=array" >> .env
+        echo "QUEUE_CONNECTION=sync" >> .env
+
     - name: Generate application key
       run: php artisan key:generate
 
